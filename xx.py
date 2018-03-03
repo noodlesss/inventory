@@ -1,4 +1,4 @@
-import paramiko, time
+import paramiko, time, openpyxl
 
 
 cmd_eth0_mac = "ifconfig |  grep -B1 10.13.34 | grep HWaddr | awk {'print $5'}"
@@ -33,6 +33,13 @@ if __name__=='__main__':
 	for hostname in inventory_list:
 		ssh(hostname, d)
 	print d
+	wb = openpyxl.load_workbook('inv.xlsx')
+	sheet = wb.get_sheet_by_name('Sheet1')
+	#d = {'asd':[111,222,333,444,555,666], 'bbb':[111,222,333,444,555,666],'ccc':[111,222,333,444,555,666]}
+	for i in range(row):
+		print i
+		sheet['A'+str(i+2)] = d.keys()[i]
+		for n in range(len((d.values()[0]))):
+			sheet.cell(row=i+2, column=n+2).value = d.values()[0][n]
 
-
-
+	wb.save('asd.xlsx')
